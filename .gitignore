@@ -1,0 +1,51 @@
+# Build artifacts
+/build/
+/testcase530/
+__pycache__/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Executables
+/cadd0000
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# IDE/editor directories
+.vscode/
+.idea/
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*~
+#*#
+*.swp
+
+# Generated experiment artifacts.  Aggregate public benchmarks live in docs/.
+/report/
+
+# Libraries
+*.a
+*.so
+*.dll
+
+# Misc
+.settings/
+.project
+
+# Codex
+.agents/
+.codex/
+
+# Large generated artifacts from the Strategy 5 parameter sweep.
+/report/strategy5/4_experiment/**/*.structure
+/report/strategy5/4_experiment/**/*.log
