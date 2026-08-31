@@ -36,5 +36,8 @@ official cases.  On the larger official cases, FF timing is closed and only
 small SS residual violations remain, except for `testcase0_v2`, which remains
 the most difficult public case in this final local run.
 
-Detailed design evolution and A/B conclusions are documented in
-[`strategy0.md`](strategy0.md) through [`strategy8.md`](strategy8.md).
+Detailed design evolution is summarized in
+[`design_history.md`](design_history.md). The current implementation and search
+decisions are documented in [`architecture.md`](architecture.md),
+[`timing_engine.md`](timing_engine.md), and
+[`search_experiments.md`](search_experiments.md).
