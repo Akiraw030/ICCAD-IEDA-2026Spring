@@ -24,8 +24,6 @@ behavior, use [`architecture.md`](architecture.md); the source code is authorita
   validation strategy.
 - [`search_experiments.md`](search_experiments.md): retained and rejected search
   ideas.
-- [`ai_optimization_note.md`](ai_optimization_note.md): concise note on the
-  AI-assisted optimization workflow.
 - [`benchmark_results.md`](benchmark_results.md): retained aggregate local
   Release/checker benchmark.
 

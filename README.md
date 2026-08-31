@@ -68,8 +68,6 @@ Generated output is written below `report/` and is ignored by Git.
   rollback design.
 - [Search experiments](docs/search_experiments.md) — retained and rejected
   search strategies.
-- [AI-assisted optimization note](docs/ai_optimization_note.md) — concise note
-  on the iterative optimization workflow.
 - [Benchmark results](docs/benchmark_results.md) — aggregate local Release and
   checker results.
 - [Design history](docs/design_history.md) — compact Strategy0–Strategy8
