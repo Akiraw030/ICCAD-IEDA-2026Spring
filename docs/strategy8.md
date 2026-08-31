@@ -40,14 +40,13 @@ cmake --build build
 ```
 
 因此目前 `build/cadd0045` 使用 `-O3 -DNDEBUG` 並定義 `ENABLE_OUTPUT`。
-`run_reports.sh` 會將七個 testcase 的 timing report 收集至指定的 `report/`
-子目錄；它不建立 `build-o3`、`build-release` 或其他 build 資料夾。
+`run_reports.sh` 會將七個 testcase 的 timing report 收集至指定的輸出子目錄；
+它不建立 `build-o3`、`build-release` 或其他 build 資料夾。
 
 2026-07-31 的受控 O3 比較確認：Output ON 與 OFF 的七份輸出 Clock Tree
 SHA-256 全部相同；ON 總 wall-clock 為 438.53 秒、OFF 為 430.18 秒，差 1.94%。
 所以 Output ON 保留為目前預設，方便取得 timing report，而不會改變 QoR。
-完整紀錄見
-`report/strategy8/4_beta_test_release_output/comparison_output_on_vs_off.md`。
+原始逐案紀錄沒有納入公開 repository；此處保留比較結論。
 
 ## 目標
 
@@ -298,12 +297,7 @@ Strategy8 local runtime 為 92.372 秒，共完成 5 cycles，全部 rollback。
 完整 FinalAlt candidate rebuild 的成本太高，第一版尚未在 testcase4 產生 QoR
 收益。
 
-原始報表：
-
-- `report/strategy8/baseline_strategy7/testcase0/`
-- `report/strategy8/baseline_strategy7/testcase4/`
-- `report/strategy8/deterministic_v1/testcase0/`
-- `report/strategy8/deterministic_v1/testcase4/`
+原始報表沒有納入公開 repository；本節的表格保留其可重現的比較結論。
 
 ## Aggressive v2 Guarded 實驗
 
@@ -358,10 +352,7 @@ Aggressive v2 跑滿 40 cycles，接受 9、拒絕 31。Perturb operation 數從
 recovery 太昂貴，150 秒只完成三個 checkpoint evaluations。它擴大了單輪跳躍
 半徑，卻沒有增加完整候選狀態的數量。
 
-Aggressive v2 報表：
-
-- `report/strategy8/aggressive_v2/testcase0/`
-- `report/strategy8/aggressive_v2/testcase4/`
+Aggressive v2 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Score-only v3 實驗
 
@@ -413,10 +404,7 @@ Score-only 找到更低 Area 與更高 Score，但用非常小的 `0.0122%` Scor
 被接受的是 guarded v2 第二輪曾拒絕的 candidate。它以 Area `-0.069` 換取
 SS TNS `-0.0011` 與一條 internal/checker NVP 增加，總 Score 仍嚴格提高。
 
-Score-only v3 報表：
-
-- `report/strategy8/score_only_v3/testcase0/`
-- `report/strategy8/score_only_v3/testcase4/`
+Score-only v3 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Guided-Beam v4 實驗
 
@@ -467,10 +455,7 @@ checkpoint」後提高至 `0.964703`。
 沒有超越 current `1.538533`，所以全部 rollback。testcase4 最終輸出與
 Strategy7 baseline 的 SHA-256 完全相同。
 
-Guided-Beam v4 報表：
-
-- `report/strategy8/guided_beam_v4/testcase0/`
-- `report/strategy8/guided_beam_v4/testcase4/`
+Guided-Beam v4 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Profiled Dual-Pool v5 實驗
 
@@ -523,10 +508,7 @@ Random 與 Area，Score 為 `1.538530`、`1.538415`；第三輪 incomplete Timin
 candidate 為 `1.536503`。最接近者只比 current `1.538533` 低約 `0.000003`，
 仍不符合嚴格改善，所以全部 rollback。最終輸出 SHA-256 與 v4 完全相同。
 
-v5 報表：
-
-- `report/strategy8/profiled_dual_pool_v5/testcase0/`
-- `report/strategy8/profiled_dual_pool_v5/testcase4/`
+v5 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Reclaim-First Cycle Recovery v6 實驗（歷史預設）
 
@@ -604,10 +586,7 @@ Normal Reclaim moves；最終 Score 從 `1.538533` 提高到 `1.538765`，所以
 後續 rounds 都沒有超過新的 current checkpoint，因此全部 rollback。v6 的最終
 輸出與 v5 SHA-256 不同，代表確實找到新的結構。
 
-v6 報表：
-
-- `report/strategy8/reclaim_first_cycle_v6/testcase0/`
-- `report/strategy8/reclaim_first_cycle_v6/testcase4/`
+v6 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Brutal Maximum-Area Path v7 實驗（歷史版本）
 
@@ -685,10 +664,7 @@ Score `1.538533`，所以都正確 rollback。最終 tree 與 FinalAlt endpoint 
 SHA-256 相同，表示被拒絕的暴力修改沒有洩漏；也表示 v7 沒有保留 v6 曾找到的
 `1.538765` 改善。
 
-v7 報表：
-
-- `report/strategy8/brutal_area_path_v7/testcase0/`
-- `report/strategy8/brutal_area_path_v7/testcase4/`
+v7 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## Brutal Delete-Only Path v8 實驗（目前預設）
 
@@ -748,14 +724,11 @@ v8 工作量：
 - testcase4：36 recovery cycles、37 Pulse insertions、42 retained reclaim
   moves，Strategy8 runtime `153.317` 秒。
 
-v8 報表：
-
-- `report/strategy8/brutal_delete_only_v8/testcase0/`
-- `report/strategy8/brutal_delete_only_v8/testcase4/`
+v8 的 raw reports 沒有納入公開 repository；本節保留比較結果。
 
 ## 驗證
 
-兩個 After 輸出都通過 bundled checker：
+兩個 After 輸出都通過官方 checker：
 
 - 0 floating
 - 0 multi-drive
@@ -769,7 +742,7 @@ Delete-Only v8 testcase0 的 checker 結果為 SS TNS/WNS
 `5607.6052`；internal report NVP 是 `61`。兩者 legality 全部通過。
 
 原始 testcase0/4 的 `buf.lib` 將最後一個 cell 寫成
-`cell(REALBUF_X16)`，bundled checker 無法解析；驗證使用語意完全相同、只補上
+`cell(REALBUF_X16)`，官方 checker 無法解析；驗證使用語意完全相同、只補上
 空格的 `testcase0_v2/buf.lib` 與 `testcase4_v2/buf.lib`。Optimizer 本身可解析
 兩種格式，未修改原始 testcase。
 
@@ -847,10 +820,8 @@ timing closure。
 - 正式預設因此仍維持單一路徑 Delete-Only v8；portfolio 與 alternating
   功能保留為可選實驗，兩者預設關閉。
 
-完整逐輪資料保存在：
-
-- `report/strategy8/post_phase0_portfolio_unlimited/testcase0/timing_report_testcase0.txt`
-- `report/strategy8/post_phase0_portfolio_unlimited/testcase4/timing_report_testcase4.txt`
+完整逐輪 raw report 沒有納入公開 repository；Portfolio 的設定、接受規則與
+結論保留於本文件。
 
 報表在最上方的 Stage Contribution Summary 後新增 Portfolio 區塊；每個分支逐
 Repair/Reclaim cycle 記錄 policy、pre-delete 數量／Area、Pulse insertion、

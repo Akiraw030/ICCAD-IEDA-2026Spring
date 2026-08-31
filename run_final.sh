@@ -3,14 +3,15 @@ set -uo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_DIR="${ROOT_DIR}/build"
-OUT_ROOT="${ROOT_DIR}/report/final"
+TESTCASE_ROOT="${1:-}"
+CHECKER_BIN="${2:-}"
+OUT_ROOT="${3:-${ROOT_DIR}/report/final}"
 REPORT_ROOT="${OUT_ROOT}/report_enabled"
 RELEASE_ROOT="${OUT_ROOT}/release"
-CHECKER_BIN="${ROOT_DIR}/checker/checker"
 
-# These are the eight distinct workloads used by run_reports.sh. testcase2_v2,
-# testcase3_v2, and testcase4_v2 differ only by checker-friendly buf.lib text,
-# so the checker normalization below avoids running those workloads twice.
+# These are the seven official public workloads used by run_reports.sh.
+# testcase2_v2, testcase3_v2, and testcase4_v2 differ only by checker-friendly
+# buf.lib text, so the checker normalization below avoids running them twice.
 DEFAULT_TESTCASES=(
     testcase0
     testcase1
@@ -19,7 +20,6 @@ DEFAULT_TESTCASES=(
     testcase4
     testcase0_v2
     testcase1_v2
-    testcase530
 )
 
 if [[ -n "${CADD0045_TESTCASES:-}" ]]; then
@@ -36,13 +36,26 @@ die() {
     exit 1
 }
 
+usage() {
+    cat >&2 <<EOF
+Usage: $0 <testcase_root> <checker_binary> [output_directory]
+
+  testcase_root   Directory containing testcase0, testcase1, ..., testcase1_v2
+  checker_binary  Path to the official checker executable
+  output_directory  Defaults to ./report/final
+
+Use CADD0045_TESTCASES to select a whitespace-separated subset.
+EOF
+    exit 2
+}
+
 require_inputs() {
     [[ -x "${CHECKER_BIN}" ]] ||
-        die "Bundled checker is missing or not executable: ${CHECKER_BIN}"
+        die "Official checker is missing or not executable: ${CHECKER_BIN}"
 
     local testcase testcase_dir required_file
     for testcase in "${TESTCASES[@]}"; do
-        testcase_dir="${ROOT_DIR}/${testcase}"
+        testcase_dir="${TESTCASE_ROOT}/${testcase}"
         [[ -d "${testcase_dir}" ]] ||
             die "Missing testcase directory: ${testcase_dir}"
         for required_file in \
@@ -112,7 +125,7 @@ run_report_pass() {
     echo "Running report-enabled pass..."
     for testcase in "${TESTCASES[@]}"; do
         echo "  [report] ${testcase}"
-        testcase_dir="${ROOT_DIR}/${testcase}"
+        testcase_dir="${TESTCASE_ROOT}/${testcase}"
         case_dir="${REPORT_ROOT}/${testcase}"
         output_tree="${case_dir}/modified_clk_tree.structure"
         auto_report="${case_dir}/timing_report_${testcase}.txt"
@@ -145,7 +158,7 @@ make_checker_library() {
     local source_lib="$1"
     local checker_lib="$2"
 
-    # The bundled checker rejects `cell(NAME)` but accepts `cell (NAME)`.
+    # The official checker rejects `cell(NAME)` but accepts `cell (NAME)`.
     sed -E 's/^([[:space:]]*)cell\(/\1cell (/' \
         "${source_lib}" >"${checker_lib}"
 }
@@ -300,6 +313,7 @@ write_manifest() {
 }
 
 main() {
+    (( $# >= 2 && $# <= 3 )) || usage
     require_inputs
     prepare_output_directory
     write_manifest

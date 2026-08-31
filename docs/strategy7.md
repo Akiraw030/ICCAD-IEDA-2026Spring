@@ -283,13 +283,13 @@ levels:
 3. A warning-enabled build and ASan/UBSan testcase0 run passed. LeakSanitizer
    could not run in the current ptrace-restricted environment.
 4. Final internal full timing and legality validation reported `legality=OK`.
-5. The bundled checker reported zero floating nodes, multi-drive nodes, illegal
+5. The official checker reported zero floating nodes, multi-drive nodes, illegal
    buffers/FFs/fanouts, mismatched nodes, and illegal timing paths for the
    current testcase0 output.
 
-Near zero, the engine, final report, and bundled checker can disagree on NVP by
+Near zero, the engine, final report, and official checker can disagree on NVP by
 a few paths due to floating-point sign classification. In the current testcase0
-validation, the optimizer reports 9 SS violations and the bundled checker
+validation, the optimizer reports 9 SS violations and the official checker
 reports 6, while both report SS TNS/WNS `-0.0062 / -0.0031`. This does not affect
 the current score, area, legality, TNS, or WNS. A common zero-slack epsilon should
 be introduced before violation count is used in future acceptance decisions.
@@ -323,10 +323,9 @@ in `0.1084 s` for testcase0 and `94.3065 s` for testcase4. These numbers are
 reported separately because compiler optimization is not part of the engine-only
 A/B.
 
-The raw reports for this historical engine-only table are not present in the
-current working tree. The current testcase0 validation report is:
-
-- `report/strategy7/5_current_validation/testcase0/timing_report_testcase0.txt`
+The raw reports for this historical engine-only table are intentionally omitted
+from the public repository. The aggregate final benchmark is retained in
+[`benchmark_results.md`](benchmark_results.md).
 
 ## Refactor decision
 

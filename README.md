@@ -2,6 +2,14 @@
 
 This repository contains the C++ optimizer for the clock-tree delay optimization project. The submitted executable is named `cadd0045`.
 
+## Competition Assets
+
+The contest testcase, checker, specification, and Q&A are not redistributed by
+this repository. Download them from the official
+[2026 ICCAD Contest Problem D page](https://www.iccad-contest.org/tw/03_problems.html),
+then place the public testcase directories under one directory of your choice.
+The scripts below call this directory `<testcase_root>`.
+
 ## Overview
 
 The program reads one testcase directory, optimizes the clock tree, and writes the modified clock tree to the output path requested on the command line:
@@ -74,10 +82,12 @@ For optimized builds that retain debug symbols, use
 
 ## Run
 
-Example from the project root:
+Example from the project root, after downloading the official assets:
 
 ```bash
-./build/cadd0045 "$(pwd)/testcase0" "$(pwd)/testcase0/modified_clk_tree.structure"
+./build/cadd0045 \
+  /path/to/testcase_root/testcase0 \
+  /path/to/output/modified_clk_tree.structure
 ```
 
 Example from inside `build/`:
@@ -105,7 +115,7 @@ Relative paths also work if they are valid from the current working directory, b
 Usage:
 
 ```bash
-./run_reports.sh
+./run_reports.sh /path/to/testcase_root
 ```
 
 Reports are saved under:
@@ -117,28 +127,30 @@ report/run_<timestamp>/
 You can also choose a destination:
 
 ```bash
-./run_reports.sh report/my_experiment
+./run_reports.sh /path/to/testcase_root report/my_experiment
 ```
 
 ## Final Full-Suite Record
 
-`run_final.sh` produces the final two-pass record under `report/final/`:
+`run_final.sh` produces the final two-pass record under `report/final/`. It
+requires a testcase root and the path to the official checker executable:
 
 ```bash
-./run_final.sh
+./run_final.sh /path/to/testcase_root /path/to/checker/checker
 ```
 
 The first pass builds Release/O3 with `ENABLE_OUTPUT=ON` and retains each
 timing report, output tree, process logs, and runtime. The second pass rebuilds
 the same optimizer with `ENABLE_OUTPUT=OFF`, retains the submission-form output
-tree, and runs the bundled checker. Exact CMake caches, compiler flags, binary
+tree, and runs the official checker. Exact CMake caches, compiler flags, binary
 hashes, and a combined `summary.tsv` are also saved.
 
-The default testcase list is the same eight distinct workloads used by
+The default testcase list is the same seven official public workloads used by
 `run_reports.sh`. To run a custom list:
 
 ```bash
-CADD0045_TESTCASES="testcase0 testcase2 testcase530" ./run_final.sh
+CADD0045_TESTCASES="testcase0 testcase2" \
+  ./run_final.sh /path/to/testcase_root /path/to/checker/checker
 ```
 
 The script refuses to overwrite a non-empty `report/final/`; move or remove an
@@ -252,10 +264,10 @@ Expensive consistency checks are off by default for normal runtime. They can be 
 - `enable_phase0_trial_full_validation_verify`
 - `enable_final_alt_trial_full_validation_verify`
 
-The bundled checker usage is:
+The official checker usage is:
 
 ```bash
-./checker/checker \
+<checker_binary> \
   <clk_tree.structure absolute path> \
   <modified_clk_tree.structure absolute path> \
   <buf.lib absolute path> \
@@ -282,8 +294,9 @@ handles both forms.
 - `docs/strategy7.md`: timing-engine changes and Strategy7 benchmark history.
 - `docs/pipeline.md`: current Strategy8 pipeline and configuration.
 - `docs/strategy6.md`: inherited optimization-policy documentation.
-- `run_reports.sh`: local report-generation helper.
-- `checker/`: bundled checker executable and README.
+- `run_reports.sh`: local report-generation helper; takes an external testcase root.
+- `run_final.sh`: two-pass optimizer/checker runner; takes external testcase and checker paths.
+- `docs/benchmark_results.md`: retained aggregate local benchmark results.
 
 Historical strategy documents are kept in `docs/strategy2.md` through
 `docs/strategy7.md`.

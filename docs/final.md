@@ -4,7 +4,7 @@
 
 終極目標是提高題目 weighted score。所有實驗遵守：
 
-1. 以 `report/run_20260828_022408` 作為起始 baseline。
+1. 以 2026-08-28 的本機 baseline run 作為起始 baseline；raw report 未納入公開 repository。
 2. 快速篩選優先跑 `testcase0 testcase2 testcase1_v2`；通過後再跑
    `testcase4 testcase0_v2`，最終候選才跑完整 suite 與 `testcase530`。
 3. 每個實驗保留 timing report 資料夾、精確參數／演算法差異、結果與採用判斷。
@@ -16,7 +16,7 @@
 
 ```bash
 CADD0045_TESTCASES="testcase0 testcase2 testcase1_v2" \
-./run_reports.sh report/optimization_campaign_20260828/run_TIMESTAMP_TAG
+./run_reports.sh /path/to/testcase_root report/optimization_campaign_20260828/run_TIMESTAMP_TAG
 ```
 
 ## Baseline：run_20260828_022408
@@ -43,10 +43,10 @@ CADD0045_TESTCASES="testcase0 testcase2 testcase1_v2" \
 
 ## 實驗索引
 
-| ID | 想法 | 狀態 | Report | 判斷 |
+| ID | 想法 | 狀態 | Historical run label | 判斷 |
 |---|---|---|---|---|
-| E01 | 目標權重改為 0.64/0.18/0.18 | 已淘汰 | `report/optimization_campaign_20260828/run_20260828_025725_E01_weight64_screen` | timing 改善但 area 成本過高，連推估權重分數也下降 |
-| E02 | Existing shared 連續無 insertion 後停用 | 部分採用 | `report/optimization_campaign_20260828/run_20260828_025929_E02_shared_streak_screen` | 保留 streak guard；「初次 0 就停用」因 testcase4 反例撤銷 |
+| E01 | 目標權重改為 0.64/0.18/0.18 | 已淘汰 | `E01_weight64_screen` | timing 改善但 area 成本過高，連推估權重分數也下降 |
+| E02 | Existing shared 連續無 insertion 後停用 | 部分採用 | `E02_shared_streak_screen` | 保留 streak guard；「初次 0 就停用」因 testcase4 反例撤銷 |
 | E03 | Strategy8 以 0.64/0.18/0.18 選擇最終 checkpoint | 已採用 | `run_20260828_E03_target_checkpoint_screen`, `run_20260828_E03_target_checkpoint_medium` | 保留 0.40/0.30/0.30 探索，分離最終狀態選擇 |
 | E04 | 撤銷 Existing-shared 初次空結果立即停用 | 已採用 | `run_20260828_E04_delayed_shared_retry_testcase4` | testcase4 推估 score 恢復並超越 baseline |
 | E05 | Strategy8 target checkpoint 無改善早停 | 已採用 | `run_20260828_E05_target_streak_screen` | 品質完全不變，中型案例總 runtime 減少 31–38% |

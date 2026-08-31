@@ -52,7 +52,7 @@ testcase4：
 
 - 一般 build 與 `-Wall -Wextra -Wpedantic` build 通過。
 - ASan/UBSan 執行通過；執行環境不支援 LeakSanitizer，因此 leak scan 未執行。
-- 兩個輸出皆通過 bundled checker：0 floating、0 multi-drive、0 illegal
+- 兩個輸出皆通過官方 checker：0 floating、0 multi-drive、0 illegal
   buffer/FF/fanout/path。
 - Checker 使用語意相同、只修正 `cell (REALBUF_X16)` 空格的
   `testcase0_v2/testcase4_v2` library；原始 library 的該行無空格，checker
@@ -62,10 +62,8 @@ testcase4：
 - testcase4 最終 checker SS TNS/WNS/NVP：
   `-0.0464 / -0.0023 / 43`；Area：`5607.6052`。
 
-目前驗證報表：
-
-- `report/strategy8/brutal_delete_only_v8/testcase0/timing_report_testcase0.txt`
-- `report/strategy8/brutal_delete_only_v8/testcase4/timing_report_testcase4.txt`
+對應的 raw validation reports 沒有納入公開 repository；本節保留其 checker
+結果與設計結論。
 
 ---
 
@@ -1208,8 +1206,9 @@ testcase4 的 Phase 0 timing 略好，卻留下較大 area 並導向較差的後
 
 ### Repair Pulse Depth-split A/B
 
-基準使用 `report/strategy7/2_phase0_modify`，新版本除 Repair Pulse 拆批外使用相同
-參數；兩次 testcase0/testcase4 的 Phase 0 輸出指標也完全相同。
+基準使用 Strategy7 的 Phase0 configuration；新版本除 Repair Pulse 拆批外使用
+相同參數，兩次 testcase0/testcase4 的 Phase0 輸出指標也完全相同。raw reports
+沒有納入公開 repository。
 
 | testcase0 指標 | 拆批前 | Depth split = 4 |
 |---|---:|---:|
@@ -1561,7 +1560,7 @@ guard。正式預設因此維持 score acceptance 關閉，但選項與實作完
 
 ## 1. Near-zero Slack 可能使 Violation Count 多算少量路徑
 
-以目前 Brutal Delete-Only v8 預設跑 testcase0，Optimizer 與 bundled checker
+以目前 Brutal Delete-Only v8 預設跑 testcase0，Optimizer 與官方 checker
 的 SS TNS/WNS 都是 `-0.0223 / -0.0038`，legality 與 timing paths 也全部
 通過；但 Optimizer 記錄 15 條 violations，checker 記錄 12 條。先前逐 commit
 FastTiming
