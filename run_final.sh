@@ -170,7 +170,7 @@ run_release_and_checker_pass() {
     echo "Running quiet release pass and checker..."
     for testcase in "${TESTCASES[@]}"; do
         echo "  [release] ${testcase}"
-        testcase_dir="${ROOT_DIR}/${testcase}"
+        testcase_dir="${TESTCASE_ROOT}/${testcase}"
         case_dir="${RELEASE_ROOT}/${testcase}"
         output_tree="${case_dir}/modified_clk_tree.structure"
         checker_lib="${case_dir}/checker_buf.lib"
