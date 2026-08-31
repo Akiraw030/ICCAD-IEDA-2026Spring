@@ -1,6 +1,7 @@
 # Build artifacts
 /build/
-/testcase530/
+/testcase*/
+/checker/
 __pycache__/
 CMakeCache.txt
 CMakeFiles/
